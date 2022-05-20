@@ -1,0 +1,23 @@
+{
+  "name": "bitartist/vvophp",
+  "version": "0.1.0",
+  "homepage": "https://github.com/B0bbyD0llar/vvophp",
+  "license": "MIT",
+  "type": "library",
+  "autoload": {
+    "psr-4": {
+      "VVOphp\\": "src/"
+    }
+  },
+  "require": {
+    "php": "^8.0",
+    "psr/log": "^1.1.4",
+    "ext-curl": "*",
+    "tracy/tracy": "^2.9.2"
+  },
+  "require-dev": {
+    "roave/security-advisories": "dev-latest",
+    "phpstan/phpstan": "^1.6.8",
+    "chevere/xr": "^0.2.5"
+  }
+}
