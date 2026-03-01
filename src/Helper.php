@@ -16,13 +16,13 @@ final class Helper
     public static function getDateFromJSON(string $JSONDate, bool $ignorePassedTimezone = true): \DateTimeInterface
     {
         preg_match('~(\d+)\d{3}((?:\+|-)\d+)~', $JSONDate, $expDate);
-        $ret = \DateTime::createFromFormat('U', $expDate[1]);
+        $ret = \DateTime::createFromFormat('!U', $expDate[1]);
 
         if ($ret instanceof \DateTimeInterface) {
             if ($ignorePassedTimezone) {
                 $ret->setTimezone(new \DateTimeZone('Europe/Berlin'));
             } else {
-                $ret->setTimezone($expDate[2]);
+                $ret->setTimezone(new \DateTimeZone($expDate[2]));
             }
 
             return $ret;

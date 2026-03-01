@@ -12,7 +12,7 @@ final class DepartureMonitorResponse extends AbstractResponse implements Respons
     private string $place;
 
     /** @var null|array<Departure> */
-    private ?array $departures;
+    private ?array $departures = null;
     private ?\DateTimeInterface $time;
 
     public function getName(): string

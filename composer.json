@@ -12,10 +12,10 @@
   "require": {
     "php": ">=8.0",
     "psr/log": "^1|^2|^3",
-    "ext-curl": "*",
-    "tracy/tracy": "^2.11.3"
+    "ext-curl": "*"
   },
   "require-dev": {
+    "tracy/tracy": "^2.11.3",
     "roave/security-advisories": "dev-latest",
     "phpstan/phpstan": "^1.12.33",
     "xrdebug/php": "^3.0.0",

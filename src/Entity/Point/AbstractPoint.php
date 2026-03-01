@@ -8,7 +8,7 @@ abstract class AbstractPoint implements PointInterface
 {
     private int $id;
     private string $name;
-    private ?string $city;
+    private ?string $city = null;
 
     /** @var array<mixed> */
     protected array $rawData = [];

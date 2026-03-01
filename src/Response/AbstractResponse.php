@@ -7,7 +7,7 @@ namespace VVOphp\Response;
 abstract class AbstractResponse
 {
     protected string $statusCode;
-    protected ?\DateTimeInterface $expirationTime;
+    protected ?\DateTimeInterface $expirationTime = null;
 
     public function getStatusCode(): string
     {

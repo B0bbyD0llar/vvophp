@@ -16,7 +16,7 @@ final class Monitor
     private int $stopId;
     private int $limit;
     private bool $shorttermchanges = true;
-    private bool $isarrival;
+    private bool $isarrival = false;
     private ?\DateTimeInterface $time;
 
     public function __construct(Request $request, ?LoggerInterface $logger = null)
@@ -56,9 +56,9 @@ final class Monitor
         $queryBody['shorttermchanges'] = $this->isShorttermchanges();
 
         if ($this->getRequest()->setQueryBody($queryBody)->StartRequest()) {
-            $data = json_decode($this->getRequest()->getResponseJSON());
+            $data = json_decode($this->getRequest()->getResponseJSON(), false, 512, JSON_THROW_ON_ERROR);
 
-            if ($data !== false) {
+            if ($data !== null) {
                 $response = new DepartureMonitorResponse();
                 $response->setStatusCode($data->Status->Code);
                 $response->setTime($time ?? new \DateTime());

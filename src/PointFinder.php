@@ -48,12 +48,16 @@ final class PointFinder
         $queryBody['stopsOnly'] = $this->isStopsOnly();
 
         // query server
-        $this->getRequest()->setQueryBody($queryBody)->StartRequest();
+        if (!$this->getRequest()->setQueryBody($queryBody)->StartRequest()) {
+            $this->logError('No result from API');
+
+            return null;
+        }
 
         // Daten prüfen und entsprechen verarbeiten
         $data = json_decode($this->getRequest()->getResponseJSON(), false, 512, JSON_THROW_ON_ERROR);
 
-        if ($data !== false) {
+        if ($data !== null) {
             $response = new PointFinderResponse();
             $response->setPointStatus($data->PointStatus);
             $response->setStatusCode($data->Status->Code);
@@ -99,7 +103,6 @@ final class PointFinder
             $point->setRawData($data);
             $point->processDetailData($data[0]);
         } elseif ($data[1] === 'p') {
-            xr($data);
             $point = new Poi();
             $point->setRawData($data);
             $point->processDetailData($data[0]);

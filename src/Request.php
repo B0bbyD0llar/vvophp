@@ -45,6 +45,12 @@ final class Request
 
         $curl = curl_init($this->getQueryURI());
 
+        if ($curl === false) {
+            $this->logError('Error: curl_init() failed');
+
+            return false;
+        }
+
         if ($this->config->isProxyEnabled()) {
             curl_setopt($curl, CURLOPT_PROXY, $this->config->getProxyHost());
         }
