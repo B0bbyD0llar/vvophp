@@ -28,7 +28,7 @@ final class Departure
     private ?\DateTimeInterface $ScheduledTime = null;
     private ?string $state = null;
 
-    /** @var array<mixed> */
+    /** @var null|array<mixed> */
     private ?array $routeChanges = null;
     private ?Diva $diva = null;
 
@@ -189,11 +189,17 @@ final class Departure
         $this->state = $state;
     }
 
+    /**
+     * @return null|array<mixed>
+     */
     public function getRouteChanges(): ?array
     {
         return $this->routeChanges;
     }
 
+    /**
+     * @param null|array<mixed> $routeChanges
+     */
     public function setRouteChanges(?array $routeChanges): void
     {
         $this->routeChanges = $routeChanges;
