@@ -1,8 +1,9 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace VVOphp\Entity;
 
-use DateTimeInterface;
 use VVOphp\Entity\Mot\Cableway;
 use VVOphp\Entity\Mot\CityBus;
 use VVOphp\Entity\Mot\Ferry;
@@ -15,7 +16,6 @@ use VVOphp\Entity\Mot\Train;
 use VVOphp\Entity\Mot\Tram;
 use VVOphp\Entity\Mot\Unknow;
 use VVOphp\Helper;
-use function is_object;
 
 final class Departure
 {
@@ -24,17 +24,18 @@ final class Departure
     private string $direction;
     private ?Platform $platform = null;
     private MotInterface $mot;
-    private ?DateTimeInterface $RealTime = null;
-    private ?DateTimeInterface $ScheduledTime = null;
+    private ?\DateTimeInterface $RealTime = null;
+    private ?\DateTimeInterface $ScheduledTime = null;
     private ?string $state = null;
-    /** @var array<mixed> $routeChanges */
+
+    /** @var array<mixed> */
     private ?array $routeChanges = null;
     private ?Diva $diva = null;
 
     public function getFromJSON(object $jsonObject): void
     {
         $idData = explode(':', $jsonObject->Id);
-        $this->setId((int)$idData[1]);
+        $this->setId((int) $idData[1]);
         $this->setLineName($jsonObject->LineName);
         $this->setDirection($jsonObject->Direction);
         $mot = match ($jsonObject->Mot) {
@@ -47,9 +48,10 @@ final class Departure
             'Cableway' => new Cableway(),
             'Ferry' => new Ferry(),
             'HailedSharedTaxi' => new HailedSharedTaxi(),
-            default => new Unknow($jsonObject->Mot)
+            default => new Unknow($jsonObject->Mot),
         };
         $this->setMot($mot);
+
         if (!empty($jsonObject->Platform)) {
             $platform = new Platform();
             $platform->setName($jsonObject->Platform->Name);
@@ -58,53 +60,46 @@ final class Departure
         } else {
             $this->setPlatform(null);
         }
+
         if (!empty($jsonObject->Diva)) {
             $diva = new Diva();
-            $diva->setNummer((int)$jsonObject->Diva->Number);
+            $diva->setNummer((int) $jsonObject->Diva->Number);
             $diva->setNetwork($jsonObject->Diva->Network);
             $this->setDiva($diva);
         } else {
             $this->setDiva(null);
         }
+
         if (!empty($jsonObject->State)) {
             $this->setState($jsonObject->State);
         }
+
         if (!empty($jsonObject->RouteChanges)) {
             $this->setRouteChanges($jsonObject->RouteChanges);
         }
+
         if (!empty($jsonObject->RealTime)) {
             $this->setRealTime(Helper::getDateFromJSON($jsonObject->RealTime));
         }
+
         $this->setScheduledTime(Helper::getDateFromJSON($jsonObject->ScheduledTime));
     }
 
-    /**
-     * @return int
-     */
     public function getId(): int
     {
         return $this->id;
     }
 
-    /**
-     * @param int $id
-     */
     public function setId(int $id): void
     {
         $this->id = $id;
     }
 
-    /**
-     * @return string
-     */
     public function getLineName(): string
     {
         return $this->lineName;
     }
 
-    /**
-     * @param string $lineName
-     */
     public function setLineName(string $lineName): void
     {
         $this->lineName = $lineName;
@@ -126,17 +121,11 @@ final class Departure
         $this->direction = $direction;
     }
 
-    /**
-     * @return Platform|null
-     */
     public function getPlatform(): ?Platform
     {
         return $this->platform;
     }
 
-    /**
-     * @param Platform|null $platform
-     */
     public function setPlatform(?Platform $platform): void
     {
         $this->platform = $platform;
@@ -152,11 +141,11 @@ final class Departure
 
     /**
      * @param mixed $mot
-     * @return Departure
      */
-    public function setMot($mot): Departure
+    public function setMot($mot): self
     {
         $this->mot = $mot;
+
         return $this;
     }
 
@@ -170,75 +159,54 @@ final class Departure
 
     /**
      * @param mixed $RealTime
-     * @return Departure
      */
-    public function setRealTime($RealTime): Departure
+    public function setRealTime($RealTime): self
     {
         $this->RealTime = $RealTime;
+
         return $this;
     }
 
-    /**
-     * @return DateTimeInterface
-     */
-    public function getScheduledTime(): ?DateTimeInterface
+    public function getScheduledTime(): ?\DateTimeInterface
     {
         return $this->ScheduledTime;
     }
 
-    /**
-     * @param DateTimeInterface $ScheduledTime
-     * @return Departure
-     */
-    public function setScheduledTime(DateTimeInterface $ScheduledTime): Departure
+    public function setScheduledTime(\DateTimeInterface $ScheduledTime): self
     {
         $this->ScheduledTime = $ScheduledTime;
+
         return $this;
     }
 
-    /**
-     * @return ?string
-     */
     public function getState(): ?string
     {
         return $this->state;
     }
 
-    /**
-     * @param ?string $state
-     */
     public function setState(?string $state): void
     {
         $this->state = $state;
     }
 
-    /**
-     * @return ?array
-     */
     public function getRouteChanges(): ?array
     {
         return $this->routeChanges;
     }
 
-    /**
-     * @param ?array $routeChanges
-     */
     public function setRouteChanges(?array $routeChanges): void
     {
         $this->routeChanges = $routeChanges;
     }
 
     /**
-     * @return Diva|null
+     * @return null|Diva
      */
     public function getDiva()
     {
         return $this->diva;
     }
 
-    /**
-     * @param Diva|null $diva
-     */
     public function setDiva(?Diva $diva): void
     {
         $this->diva = $diva;
@@ -250,10 +218,10 @@ final class Departure
             return;
         }
 
-        if (!is_object($this->getScheduledTime()) || !is_object($this->getRealTime())) {
+        if (!\is_object($this->getScheduledTime()) || !\is_object($this->getRealTime())) {
             return;
         }
+
         echo $this->getScheduledTime()->diff($this->getRealTime())->format('%R%i m');
     }
-
 }

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace VVOphp\Response;
 
@@ -7,40 +9,34 @@ use VVOphp\Entity\Point\PointInterface;
 final class PointFinderResponse extends AbstractResponse implements ResponseInterface
 {
     private string $pointStatus;
-    /** @var PointInterface[] $points */
+
+    /** @var array<PointInterface> */
     private ?array $points;
 
-
-    /**
-     * @return string
-     */
     public function getPointStatus(): string
     {
         return $this->pointStatus;
     }
 
-    /**
-     * @param string $pointStatus
-     */
     public function setPointStatus(string $pointStatus): void
     {
         $this->pointStatus = $pointStatus;
     }
 
-
     /**
-     * @return PointInterface[]|null
+     * @return null|array<PointInterface>
      */
-    public function getPoints(): array|null
+    public function getPoints(): ?array
     {
         if (isset($this->points)) {
             return $this->points;
         }
+
         return null;
     }
 
     /**
-     * @param PointInterface[]|null $points
+     * @param null|array<PointInterface> $points
      */
     public function setPoints(?array $points): void
     {
@@ -53,6 +49,4 @@ final class PointFinderResponse extends AbstractResponse implements ResponseInte
             $this->points[] = $point;
         }
     }
-
-
 }

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace VVOphp;
 
@@ -11,8 +13,7 @@ use VVOphp\Response\PointFinderResponse;
 
 final class PointFinder
 {
-    private const DEFAULT_LIMIT = 0;
-
+    private const int DEFAULT_LIMIT = 0;
     private Request $request;
     private ?LoggerInterface $logger;
     private string $query;
@@ -31,10 +32,6 @@ final class PointFinder
         return $this->request;
     }
 
-    /**
-     * @param string $logText
-     * @return void
-     */
     private function logError(string $logText): void
     {
         if ($this->logger instanceof LoggerInterface) {
@@ -42,10 +39,6 @@ final class PointFinder
         }
     }
 
-    /**
-     * @param string $query
-     * @return PointFinderResponse|null
-     */
     public function execQuery(string $query): ?PointFinderResponse
     {
         $this->query = $query;
@@ -59,21 +52,27 @@ final class PointFinder
 
         // Daten prüfen und entsprechen verarbeiten
         $data = json_decode($this->getRequest()->getResponseJSON(), false, 512, JSON_THROW_ON_ERROR);
+
         if ($data !== false) {
             $response = new PointFinderResponse();
             $response->setPointStatus($data->PointStatus);
             $response->setStatusCode($data->Status->Code);
+
             if (!empty($data->ExpirationTime)) {
                 $response->setExpirationTime(Helper::getDateFromJSON($data->ExpirationTime));
             } else {
                 $response->setExpirationTime(null);
             }
+
             foreach ($data->Points as $point) {
                 $response->addPoint($this->processData($point));
             }
+
             return $response;
         }
+
         $this->logError('No result from API');
+
         return null;
     }
 
@@ -81,13 +80,15 @@ final class PointFinder
     {
         $point = null;
         $data = explode('|', $rawData);
+
         if (empty($data[1])) {
             $point = new Stop();
             $point->setRawData($data);
-            $point->setId((int)$data[0]);
+            $point->setId((int) $data[0]);
             $point->setName($data[3]);
-            $point->setGK4X((int)$data[4]);
-            $point->setGK4Y((int)$data[5]);
+            $point->setGK4X((int) $data[4]);
+            $point->setGK4Y((int) $data[5]);
+
             if (!empty($data[2])) {
                 $point->setCity($data[2]);
             } else {
@@ -103,63 +104,45 @@ final class PointFinder
             $point->setRawData($data);
             $point->processDetailData($data[0]);
         }
+
         return $point;
     }
 
-    /**
-     * @return string
-     */
     public function getQuery(): string
     {
         return $this->query;
     }
 
-    /**
-     * @param string $query
-     * @return PointFinder
-     */
-    public function setQuery(string $query): PointFinder
+    public function setQuery(string $query): self
     {
         $this->query = $query;
+
         return $this;
     }
 
-    /**
-     * @return int
-     */
     public function getLimit(): int
     {
         return $this->limit;
     }
 
-    /**
-     * @param ?int $limit
-     * @return PointFinder
-     */
-    public function setLimit(?int $limit): PointFinder
+    public function setLimit(?int $limit): self
     {
         if ($limit !== null) {
             $this->limit = $limit;
         }
+
         return $this;
     }
 
-    /**
-     * @return bool
-     */
     public function isStopsOnly(): bool
     {
         return $this->stopsOnly;
     }
 
-    /**
-     * @param bool $stopsOnly
-     * @return PointFinder
-     */
-    public function setStopsOnly(bool $stopsOnly): PointFinder
+    public function setStopsOnly(bool $stopsOnly): self
     {
         $this->stopsOnly = $stopsOnly;
+
         return $this;
     }
-
 }

@@ -1,15 +1,16 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace VVOphp;
 
-use DateTimeInterface;
-use Exception;
 use Psr\Log\LoggerInterface;
 use VVOphp\Response\DepartureMonitorResponse;
 use VVOphp\Response\PointFinderResponse;
 
 /**
  * @url https://github.com/B0bbyD0llar/vvophp
+ *
  * @see https://github.com/kiliankoe/vvo
  */
 final class VVOphp
@@ -18,8 +19,7 @@ final class VVOphp
     private ?LoggerInterface $logger;
 
     /**
-     * @param Config $config
-     * @param LoggerInterface|null $logger PSR-3 compatible Logger
+     * @param null|LoggerInterface $logger PSR-3 compatible Logger
      */
     public function __construct(Config $config, ?LoggerInterface $logger = null)
     {
@@ -38,14 +38,9 @@ final class VVOphp
     }
 
     /**
-     * Searching needle for a point (e.g. station, street ...)
-     *
-     * @param string $needle
-     * @param int|null $limit
-     * @param bool|null $stopOnly
-     * @return PointFinderResponse|null
+     * Searching needle for a point (e.g. station, street ...).
      */
-    public function searchPoint(string $needle, ?int $limit = null, ?bool $stopOnly = null): PointFinderResponse|null
+    public function searchPoint(string $needle, ?int $limit = null, ?bool $stopOnly = null): ?PointFinderResponse
     {
         try {
             $request = new Request($this->getConfig(), $this->getLogger());
@@ -53,29 +48,24 @@ final class VVOphp
             $finder = new PointFinder($request, $this->getLogger());
             $finder->setLimit($limit);
             $finder->setStopsOnly($stopOnly);
+
             return $finder->execQuery($needle);
-        } catch (Exception) {
+        } catch (\Exception) {
             return null;
         }
     }
 
-    /**
-     * @param int $id
-     * @param DateTimeInterface|null $time
-     * @param int|null $limit
-     * @return DepartureMonitorResponse|null
-     */
-    public function getMonitorData(int $id, ?DateTimeInterface $time = null, ?int $limit = null): DepartureMonitorResponse|null
+    public function getMonitorData(int $id, ?\DateTimeInterface $time = null, ?int $limit = null): ?DepartureMonitorResponse
     {
         try {
             $request = new Request($this->getConfig(), $this->getLogger());
             $request->setQueryURI($this->getConfig()->getDepartureMonitorAPIURI());
             $monitor = new Monitor($request, $this->getLogger());
             $monitor->setLimit($limit);
+
             return $monitor->execQuery($id, $time);
-        } catch (Exception) {
+        } catch (\Exception) {
             return null;
         }
     }
-
 }

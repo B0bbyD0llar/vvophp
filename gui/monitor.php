@@ -1,10 +1,10 @@
 <?php declare(strict_types=1);
 
-require_once("init.php");
+require_once 'init.php';
 
 global $vvo; // Only for testing purposes
 
-include("top.php"); // HTML Head + Menu
+include 'top.php'; // HTML Head + Menu
 ?>
     <form method="get" action="monitor.php" class="form-inline">
         <label class="sr-only" for="q">Name</label>
@@ -15,16 +15,16 @@ include("top.php"); // HTML Head + Menu
     </form>
     <hr>
 <?php
-if (@$_GET['q'] == "") {
+if (@$_GET['q'] == '') {
     echo '<p>Please perform a search.</p>';
 } else {
     echo '<h4>Searched for <i>&quot;' . @$_GET['q'] . '&quot;</i>.</h4>';
     echo '<div style="border: 1px dotted grey; padding: 10px;">';
     echo '<h4 style="padding-bottom: 10px; border-bottom: grey 1px dashed;">Response from server:</h4>';
-    $data = $vvo->getMonitorData((int)$_GET['q']);
+    $data = $vvo->getMonitorData((int) $_GET['q']);
     \Tracy\Debugger::Dump($data);
     echo '</div>';
 }
 
-include("foot.php"); // HTML Foot
+include 'foot.php'; // HTML Foot
 ?>
