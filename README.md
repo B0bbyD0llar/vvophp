@@ -95,6 +95,12 @@ $config->setProxyHost('http://proxy.example.com:8080');
 $vvo = new VVOphp($config);
 ```
 
+## Demo
+
+A web-based testing GUI is available in a separate repository:
+
+[bitartist/vvophp-demo](https://github.com/bitartist/vvophp-demo)
+
 ## Development
 
 ### Prerequisites

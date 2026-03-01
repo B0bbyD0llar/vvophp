@@ -15,7 +15,6 @@
     "friendsofphp/php-cs-fixer": "^3.94",
     "phpstan/phpstan": "^1.12.33",
     "roave/security-advisories": "dev-latest",
-    "tracy/tracy": "^2.11.3",
     "xrdebug/php": "^3.0.0"
   },
   "autoload": {
