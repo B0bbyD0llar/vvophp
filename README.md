@@ -95,25 +95,6 @@ $config->setProxyHost('http://proxy.example.com:8080');
 $vvo = new VVOphp($config);
 ```
 
-## Architecture
-
-```
-VVOphp\
-├── VVOphp              Main facade (entry point)
-├── Config              API endpoint & proxy configuration
-├── Request             HTTP/cURL communication layer
-├── Monitor             Departure monitor queries
-├── PointFinder         Location search queries
-├── Helper              Date/time parsing utilities
-├── Entity\
-│   ├── Departure       Departure data (line, direction, time, delay)
-│   ├── Diva            Network identifier
-│   ├── Platform        Platform/track information
-│   ├── Point\          Location types (Stop, Street, Poi)
-│   └── Mot\            Modes of transport (Tram, Bus, Train, ...)
-└── Response\           Typed API response objects
-```
-
 ## Development
 
 ### Prerequisites
