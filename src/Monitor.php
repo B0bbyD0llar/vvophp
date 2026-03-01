@@ -11,7 +11,7 @@ use VVOphp\Response\DepartureMonitorResponse;
 final class Monitor
 {
     private const int DEFAULT_LIMIT = 5;
-    private Request $request;
+    private RequestInterface $request;
     private ?LoggerInterface $logger;
     private int $stopId;
     private int $limit;
@@ -19,7 +19,7 @@ final class Monitor
     private bool $isarrival = false;
     private ?\DateTimeInterface $time;
 
-    public function __construct(Request $request, ?LoggerInterface $logger = null)
+    public function __construct(RequestInterface $request, ?LoggerInterface $logger = null)
     {
         $this->logger = $logger;
         $this->request = $request;
@@ -27,7 +27,7 @@ final class Monitor
         $this->time = null;
     }
 
-    private function getRequest(): Request
+    private function getRequest(): RequestInterface
     {
         return $this->request;
     }

@@ -15,11 +15,17 @@
     "friendsofphp/php-cs-fixer": "^3.94",
     "phpstan/phpstan": "^1.12.33",
     "roave/security-advisories": "dev-latest",
-    "xrdebug/php": "^3.0.0"
+    "xrdebug/php": "^3.0.0",
+    "phpunit/phpunit": "^11"
   },
   "autoload": {
     "psr-4": {
       "VVOphp\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "VVOphp\\Tests\\": "tests/"
     }
   },
   "config": {

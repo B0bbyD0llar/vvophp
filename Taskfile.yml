@@ -16,6 +16,7 @@ tasks:
     cmds:
       - task: "coding-standards"
       - task: "static-code-analysis"
+      - task: "tests"
 
   coding-standards:
     aliases:
@@ -39,6 +40,14 @@ tasks:
     cmds:
       - task: "vendor"
       - "php vendor/bin/phpstan --allow-empty-baseline --configuration=phpstan.neon --generate-baseline=phpstan-baseline.neon --memory-limit=-1"
+
+  tests:
+    aliases:
+      - "t"
+    desc: "Runs unit tests with phpunit/phpunit"
+    cmds:
+      - task: "vendor"
+      - "php vendor/bin/phpunit --configuration=phpunit.xml.dist"
 
   vendor:
     desc: "Validates composer.json and composer.lock and installs dependencies with composer"

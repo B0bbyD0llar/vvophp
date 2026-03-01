@@ -6,7 +6,7 @@ namespace VVOphp;
 
 use Psr\Log\LoggerInterface;
 
-final class Request
+final class Request implements RequestInterface
 {
     private string $queryURI;
 

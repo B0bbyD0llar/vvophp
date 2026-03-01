@@ -14,20 +14,20 @@ use VVOphp\Response\PointFinderResponse;
 final class PointFinder
 {
     private const int DEFAULT_LIMIT = 0;
-    private Request $request;
+    private RequestInterface $request;
     private ?LoggerInterface $logger;
     private string $query;
     private int $limit;
     private bool $stopsOnly = false;
 
-    public function __construct(Request $request, ?LoggerInterface $logger = null)
+    public function __construct(RequestInterface $request, ?LoggerInterface $logger = null)
     {
         $this->logger = $logger;
         $this->request = $request;
         $this->limit = self::DEFAULT_LIMIT;
     }
 
-    private function getRequest(): Request
+    private function getRequest(): RequestInterface
     {
         return $this->request;
     }
