@@ -1,0 +1,50 @@
+# https://taskfile.dev
+
+version: "3"
+
+env:
+  XDEBUG_MODE: "off"
+
+output: "interleaved"
+silent: true
+
+tasks:
+  default:
+    aliases:
+      - "it"
+    desc: "Runs the full verification suite"
+    cmds:
+      - task: "coding-standards"
+      - task: "static-code-analysis"
+
+  coding-standards:
+    aliases:
+      - "cs"
+    desc: "Normalizes composer.json with ergebnis/composer-normalize and fixes code style issues with friendsofphp/php-cs-fixer"
+    cmds:
+      - task: "vendor"
+      - "composer normalize"
+      - "php vendor/bin/php-cs-fixer fix --config=.php-cs-fixer.php --diff --show-progress=dots --verbose"
+
+  static-code-analysis:
+    aliases:
+      - "sca"
+    desc: "Runs a static code analysis with phpstan/phpstan"
+    cmds:
+      - task: "vendor"
+      - "php vendor/bin/phpstan --configuration=phpstan.neon --memory-limit=-1 -vvv"
+
+  static-code-analysis-baseline:
+    desc: "Generates a baseline for static code analysis with phpstan/phpstan"
+    cmds:
+      - task: "vendor"
+      - "php vendor/bin/phpstan --allow-empty-baseline --configuration=phpstan.neon --generate-baseline=phpstan-baseline.neon --memory-limit=-1"
+
+  vendor:
+    desc: "Validates composer.json and composer.lock and installs dependencies with composer"
+    sources:
+      - "composer.json"
+      - "composer.lock"
+    cmds:
+      - "composer validate --strict"
+      - "composer install --no-interaction --no-progress"
