@@ -125,6 +125,7 @@ task
 ```bash
 task cs    # Code style (PHP CS Fixer + Composer Normalize)
 task sca   # Static analysis (PHPStan level 6)
+task t     # Unit tests (PHPUnit)
 ```
 
 ## Roadmap
@@ -132,7 +133,7 @@ task sca   # Static analysis (PHPStan level 6)
 - [ ] Trip queries and trip details
 - [ ] Line information
 - [ ] Route changes
-- [ ] Test suite
+- [x] Test suite
 - [ ] Extended documentation
 
 ## License
