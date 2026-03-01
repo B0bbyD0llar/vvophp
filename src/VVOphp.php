@@ -47,7 +47,9 @@ final class VVOphp
             $request->setQueryURI($this->getConfig()->getPointFinderAPIURI());
             $finder = new PointFinder($request, $this->getLogger());
             $finder->setLimit($limit);
-            $finder->setStopsOnly($stopOnly);
+            if ($stopOnly !== null) {
+                $finder->setStopsOnly($stopOnly);
+            }
 
             return $finder->execQuery($needle);
         } catch (\Exception) {
