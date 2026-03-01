@@ -1,13 +1,13 @@
 {
   "name": "bitartist/vvophp",
+  "description": "PHP library for accessing real-time public transport data from the VVO (Verkehrsverbund Oberelbe) network",
   "license": "MIT",
   "type": "library",
-  "version": "0.1.3",
   "homepage": "https://github.com/B0bbyD0llar/vvophp",
   "require": {
-    "php": ">=8.0",
+    "php": ">=8.2",
     "ext-curl": "*",
-    "psr/log": "^1 || ^2 || ^3"
+    "psr/log": "^2 || ^3"
   },
   "require-dev": {
     "ergebnis/composer-normalize": "^2.50",
